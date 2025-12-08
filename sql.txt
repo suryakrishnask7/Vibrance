@@ -1,0 +1,122 @@
+create music_db in phpmyadmin first
+
+CREATE TABLE Artist (
+    artist_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    country VARCHAR(50)
+);
+
+CREATE TABLE Producer (
+    producer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    company VARCHAR(100)
+);
+
+CREATE TABLE Album (
+    album_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    release_year INT,
+    producer_id INT,
+    FOREIGN KEY (producer_id)
+        REFERENCES Producer(producer_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE Track (
+    track_id INT PRIMARY KEY AUTO_INCREMENT,
+    album_id INT,
+    title VARCHAR(100) NOT NULL,
+    duration TIME,
+    FOREIGN KEY (album_id)
+        REFERENCES Album(album_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE TrackArtists (
+    track_id INT,
+    artist_id INT,
+    PRIMARY KEY (track_id, artist_id),
+    FOREIGN KEY (track_id)
+        REFERENCES Track(track_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (artist_id)
+        REFERENCES Artist(artist_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+RECORDS FOR CHECKING
+
+-- ============================
+-- 1 PRODUCERS
+-- ============================
+
+INSERT INTO Producer (producer_id, name, company) VALUES
+(1, 'A. R. Rahman', 'Sony Music India'),
+(2, 'Harris Jayaraj', 'Sony Music India');
+
+-- ============================
+-- 2 ALBUMS
+-- ============================
+INSERT INTO Album (album_id, title, release_year, producer_id) VALUES
+(1, 'O Kadhal Kanmani', 2015, 1),
+(2, 'Yennai Arindhaal', 2015, 2);
+
+-- ============================
+-- 3 ARTISTS
+-- ============================
+INSERT INTO Artist (artist_id, name, country) VALUES
+(1, 'A. R. Rahman', 'India'),
+(2, 'Harris Jayaraj', 'India'),
+(3, 'Karthik', 'India'),
+(4, 'Shashaa Tirupati', 'India'),
+(5, 'Jonita Gandhi', 'India'),
+(6, 'Benny Dayal', 'India'),
+(7, 'Mahathi', 'India'),
+(8, 'Sunitha Sarathy', 'India'),
+(9, 'Kharesma Ravichandran', 'India'),
+(10, 'Emcee Jesz', 'India'),
+(11, 'Vijay Prakash', 'India'),
+(12, 'Gana Bala', 'India'),
+(13, 'Chinmayi', 'India');
+
+-- ============================
+-- 4 TRACKS – O KADHAL KANMANI
+-- ============================
+INSERT INTO Track (track_id, album_id, title, duration) VALUES
+(1, 1, 'Kaara Aattakkaaraa', '00:05:41'),
+(2, 1, 'Aye Sinamika', '00:06:39'),
+(3, 1, 'Parandhu Sella Vaa', '00:04:58'),
+(4, 1, 'Mental Manadhil', '00:03:27'),
+(5, 1, 'Naane Varugiren', '00:06:10'),
+(6, 1, 'Theera Ulaa', '00:04:51'),
+(7, 1, 'Mental Manadhil (Female)', '00:03:16'),
+(8, 1, 'Malargal Kaettaen', '00:05:58'),
+(9, 1, 'Maula Wa Sallim', '00:03:06');
+
+-- ============================
+-- 5 TRACKS – YENNAI ARINDHAAL
+-- ============================
+INSERT INTO Track (track_id, album_id, title, duration) VALUES
+(10, 2, 'Yaen Ennai', '00:04:14'),
+(11, 2, 'Mazhai Vara Pogudhae', '00:05:45'),
+(12, 2, 'Unakkenna Venum Sollu', '00:05:10'),
+(13, 2, 'Yennai Arindhaal', '00:05:48'),
+(14, 2, 'Adhaaru Adhaaru', '00:04:58'),
+(15, 2, 'Maya Bazaar', '00:04:20'),
+(16, 2, 'Idhayathai Yedho Ondru', '00:03:55');
+
+-- ============================
+-- 6 TRACK–ARTIST MAPPING
+-- ============================
+INSERT INTO TrackArtists (track_id, artist_id) VALUES
+(10, 8),   -- Yaen Ennai → Sunitha Sarathy
+(11, 3),   -- Mazhai Vara Pogudhae → Karthik
+(12, 6),   -- Unakkenna Venum Sollu → Benny Dayal
+(13, 11),  -- Yennai Arindhaal → Vijay Prakash
+(14, 12),  -- Adhaaru Adhaaru → Gana Bala
+(15, 2),   -- Maya Bazaar → Harris Jayaraj
+(16, 13);  -- Idhayathai Yedho Ondru → Chinmayi
