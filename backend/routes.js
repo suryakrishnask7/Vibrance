@@ -4,23 +4,55 @@ const db = require("./db");
 
 // ---------------- ARTISTS ----------------
 router.get("/artists", (req, res) => {
-    db.query("SELECT * FROM Artist", (err, data) => {
-        if (err) return res.json(err);
-        res.json(data);
-    });
+  db.query("SELECT * FROM Artist", (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
 });
 
+// ✅ ADD ARTIST
 router.post("/artists", (req, res) => {
-    const { name, country } = req.body;
-    db.query(
-        "INSERT INTO Artist (name, country) VALUES (?, ?)",
-        [name, country],
-        err => {
-            if (err) return res.json(err);
-            res.json({ message: "Artist added" });
-        }
-    );
+  const { name, country } = req.body;
+
+  db.query(
+    "INSERT INTO Artist (name, country) VALUES (?, ?)",
+    [name, country],
+    err => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Artist added" });
+    }
+  );
 });
+
+// ✅ UPDATE ARTIST (THIS FIXES UPDATE)
+router.put("/artists/:id", (req, res) => {
+  const { name, country } = req.body;
+  const { id } = req.params;
+
+  db.query(
+    "UPDATE Artist SET name=?, country=? WHERE artist_id=?",
+    [name, country, id],
+    err => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Artist updated" });
+    }
+  );
+});
+
+// ✅ DELETE ARTIST (THIS FIXES DELETE)
+router.delete("/artists/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.query(
+    "DELETE FROM Artist WHERE artist_id=?",
+    [id],
+    err => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Artist deleted" });
+    }
+  );
+});
+
 
 // ---------------- PRODUCERS ----------------
 router.get("/producers", (req, res) => {

@@ -1,30 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <h1>Artist Manager</h1>
+  <meta charset="UTF-8">
+  <title>Vibrance | Artists</title>
 
-<div class="box">
-    <input type="hidden" id="artistId">
-    <input id="artistName" placeholder="Name">
-    <input id="artistCountry" placeholder="Country">
-    <button onclick="saveArtist()">Save</button>
+  <!-- ✅ Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- ✅ NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="index.html">🎵 Vibrance</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#vibranceNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="vibranceNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="artist.html">Artists</a></li>
+        <li class="nav-item"><a class="nav-link" href="producer.html">Producers</a></li>
+        <li class="nav-item"><a class="nav-link" href="album.html">Albums</a></li>
+        <li class="nav-item"><a class="nav-link" href="track.html">Tracks</a></li>
+        <li class="nav-item"><a class="nav-link" href="trackArtist.html">Track Artists</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ MAIN CONTENT -->
+<div class="container mt-5">
+
+  <div class="row">
+    <div class="col-md-5">
+
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white fw-bold">
+          🎤 Add / Update Artist
+        </div>
+
+        <div class="card-body">
+          <input type="hidden" id="artistId">
+
+          <div class="mb-3">
+            <label class="form-label">Artist Name</label>
+            <input type="text" class="form-control" id="artistName">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input type="text" class="form-control" id="artistCountry">
+          </div>
+
+          <div class="d-grid gap-2">
+            <button class="btn btn-success" onclick="saveArtist()">Save Artist</button>
+            <button class="btn btn-secondary" onclick="resetForm()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ✅ TABLE -->
+    <div class="col-md-7">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white fw-bold">
+          🎶 Artist List
+        </div>
+
+        <div class="card-body table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="artistTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<table>
-    <thead>
-        <tr><th>ID</th><th>Name</th><th>Country</th><th>Action</th></tr>
-    </thead>
-    <tbody id="artistTable"></tbody>
-</table>
+<!-- ✅ Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- ✅ Your existing JS -->
 <script src="js/artist.js"></script>
 
-    
 </body>
 </html>
