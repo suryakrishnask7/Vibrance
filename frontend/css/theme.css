@@ -1,0 +1,104 @@
+/* Root Theme Colors */
+:root {
+  --primary-bg: #242038;
+  --primary-accent: #6C63FF;
+  --success-soft: #4CAF93;
+  --page-bg: #F4F5FB;
+  --card-bg: #FFFFFF;
+  --table-header: #2F2B4A;
+  --text-muted-soft: #7A7A9D;
+}
+
+/* Global Page */
+body {
+  background-color: var(--page-bg) !important;
+  color: #2b2b2b;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--primary-bg) !important;
+}
+
+.navbar-brand,
+.navbar .nav-link {
+  color: #ffffff !important;
+}
+
+.navbar .nav-link:hover {
+  color: var(--primary-accent) !important;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 14px;
+  border: none;
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--primary-bg), var(--primary-accent)) !important;
+  color: white !important;
+  border-bottom: none;
+}
+
+/* Tables */
+.table thead {
+  background-color: var(--table-header);
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(108, 99, 255, 0.08);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-accent);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #5a52e0;
+}
+
+.btn-success {
+  background-color: var(--success-soft);
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #3f9e86;
+}
+
+.btn-danger {
+  background-color: #e35d6a;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #9aa0c9;
+  border: none;
+}
+
+/* Muted Text */
+.text-muted {
+  color: var(--text-muted-soft) !important;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(36, 32, 56, 0.25);
+}
+
+/* Rounded inner tables */
+.rounded-table {
+  border-radius: 14px;
+  overflow: hidden;
+}
