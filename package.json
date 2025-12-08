@@ -1,7 +1,7 @@
 {
   "name": "vibrance",
   "version": "1.0.0",
-  "description": "Vibrance Music Database Web App using MySQL + Node.js",
+  "description": "Vibrance Music Database",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js"

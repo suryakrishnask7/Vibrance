@@ -3,7 +3,7 @@ const mysql = require("mysql2");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",     // default XAMPP
+  password: "",
   database: "music_db",
   port: 3306
 });

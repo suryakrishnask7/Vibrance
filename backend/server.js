@@ -7,11 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ USE ROUTES
 const routes = require("./routes");
 app.use("/api", routes);
 
-// ✅ SERVE FRONTEND
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.get("/", (req, res) => {
@@ -19,5 +17,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log("✅ Vibrance running at http://localhost:5000");
+  console.log("Vibrance running at http://localhost:5000");
 });

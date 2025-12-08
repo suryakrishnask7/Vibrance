@@ -1,57 +1,72 @@
 const API = "http://localhost:5000/api";
 
 async function loadProducers() {
-    const res = await fetch(`${API}/producers`);
-    const data = await res.json();
-    const table = document.getElementById("producerTable");
-    table.innerHTML = "";
+  const res = await fetch(`${API}/producers`);
+  const data = await res.json();
 
-    data.forEach(p => {
-        table.innerHTML += `
-        <tr>
-            <td>${p.producer_id}</td>
-            <td>${p.name}</td>
-            <td>${p.company || "-"}</td>
-            <td>
-                <button onclick="editProducer(${p.producer_id}, '${p.name}', '${p.company || ""}')">Edit</button>
-                <button onclick="deleteProducer(${p.producer_id})">Delete</button>
-            </td>
-        </tr>`;
-    });
+  producerTable.innerHTML = "";
+
+  data.forEach(p => {
+    producerTable.innerHTML += `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.company || "-"}</td>
+        <td>
+          <button class="btn btn-sm btn-primary"
+            onclick="editProducer(${p.producer_id}, '${p.name.replace(/'/g, "\\'")}', '${(p.company || "").replace(/'/g, "\\'")}')">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger"
+            onclick="deleteProducer(${p.producer_id})">
+            Delete
+          </button>
+        </td>
+      </tr>
+    `;
+  });
 }
 
 async function saveProducer() {
-    const id = document.getElementById("producerId").value;
-    const name = document.getElementById("producerName").value;
-    const company = document.getElementById("producerCompany").value;
+  const id = producerId.value;
+  const name = producerName.value.trim();
+  const company = producerCompany.value.trim();
 
-    if (id) {
-        await fetch(`${API}/producers/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, company })
-        });
-    } else {
-        await fetch(`${API}/producers`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, company })
-        });
-    }
+  if (!name) return alert("Name is required");
 
-    document.getElementById("producerId").value = "";
-    loadProducers();
+  if (id) {
+    await fetch(`${API}/producers/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, company })
+    });
+  } else {
+    await fetch(`${API}/producers`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, company })
+    });
+  }
+
+  resetProducerForm();
+  loadProducers();
 }
 
 function editProducer(id, name, company) {
-    document.getElementById("producerId").value = id;
-    document.getElementById("producerName").value = name;
-    document.getElementById("producerCompany").value = company;
+  producerId.value = id;
+  producerName.value = name;
+  producerCompany.value = company;
 }
 
 async function deleteProducer(id) {
-    await fetch(`${API}/producers/${id}`, { method: "DELETE" });
-    loadProducers();
+  if (!confirm("Delete this producer?")) return;
+  await fetch(`${API}/producers/${id}`, { method: "DELETE" });
+  loadProducers();
+}
+
+function resetProducerForm() {
+  producerId.value = "";
+  producerName.value = "";
+  producerCompany.value = "";
 }
 
 loadProducers();
