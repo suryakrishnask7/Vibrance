@@ -211,16 +211,22 @@ router.delete("/tracks/:id", (req, res) => {
 // GET all track-artist mappings
 router.get("/trackartists", (req, res) => {
   const sql = `
-    SELECT Track.title AS track, Artist.name AS artist
+    SELECT 
+      TrackArtists.track_id,
+      TrackArtists.artist_id,
+      Track.title AS track,
+      Artist.name AS artist
     FROM TrackArtists
     JOIN Track ON TrackArtists.track_id = Track.track_id
     JOIN Artist ON TrackArtists.artist_id = Artist.artist_id
   `;
+
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
 });
+
 
 // ASSIGN artist to track
 router.post("/trackartists", (req, res) => {
@@ -238,14 +244,25 @@ router.post("/trackartists", (req, res) => {
 // DELETE track-artist mapping
 router.delete("/trackartists", (req, res) => {
   const { track_id, artist_id } = req.body;
+
+  if (!track_id || !artist_id) {
+    return res.status(400).json({ message: "track_id and artist_id required" });
+  }
+
   db.query(
-    "DELETE FROM TrackArtists WHERE track_id=? AND artist_id=?",
+    "DELETE FROM TrackArtists WHERE track_id = ? AND artist_id = ?",
     [track_id, artist_id],
-    err => {
+    (err, result) => {
       if (err) return res.status(500).json(err);
-      res.json({ message: "TrackArtist mapping deleted" });
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Mapping not found" });
+      }
+
+      res.json({ message: "Mapping deleted successfully" });
     }
   );
 });
+
 
 module.exports = router;

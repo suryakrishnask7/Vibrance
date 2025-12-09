@@ -54,12 +54,15 @@ async function assignArtist() {
   const trackId = trackDropdown.value;
   const artistId = artistDropdown.value;
 
-  if (!trackId || !artistId) return alert("Select both values");
+  if (!trackId || !artistId) return alert("Select both track and artist");
 
   await fetch(`${API}/trackartists`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ track_id: trackId, artist_id: artistId })
+    body: JSON.stringify({
+      track_id: trackId,
+      artist_id: artistId
+    })
   });
 
   loadMappings();
@@ -68,13 +71,24 @@ async function assignArtist() {
 async function removeMapping(trackId, artistId) {
   if (!confirm("Remove this mapping?")) return;
 
-  await fetch(`${API}/trackartists`, {
+  console.log("Deleting:", trackId, artistId); // DEBUG
+
+  const res = await fetch(`${API}/trackartists`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ track_id: trackId, artist_id: artistId })
+    body: JSON.stringify({
+      track_id: trackId,
+      artist_id: artistId
+    })
   });
 
-  loadMappings();
+  const data = await res.json();
+
+  if (res.ok) {
+    loadMappings();
+  } else {
+    alert("Delete failed: " + (data.message || "Unknown error"));
+  }
 }
 
 loadDropdowns();
